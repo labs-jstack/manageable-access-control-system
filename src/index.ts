@@ -1,1 +1,3 @@
-const a = 'batata';
+import 'dotenv/config';
+import './server';
+
