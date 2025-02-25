@@ -1,24 +1,24 @@
-import Express from "express";
-import { makeSignInController } from "../factories/makeSignInController";
-import { makeSignUpController } from "../factories/makeSignUpController";
-import { routeAdapter } from "./adapters/routeAdapter";
-import { makeListLeadsController } from "../factories/makeListLeadsController";
-import { middlewareAdapter } from "./adapters/middlewareAdapter";
-import { makeAuthenticationMiddleware } from "../factories/makeAuthenticationMIddleware";
+import express from 'express';
+import { makeAuthenticationMiddleware } from '../factories/makeAuthenticationMIddleware';
+import { makeListLeadsController } from '../factories/makeListLeadsController';
+import { makeSignInController } from '../factories/makeSignInController';
+import { makeSignUpController } from '../factories/makeSignUpController';
+import { middlewareAdapter } from './adapters/middlewareAdapter';
+import { routeAdapter } from './adapters/routeAdapter';
 
-const express = Express();
+const app = express();
 
-express.use(Express.json());
+app.use(express.json());
 
-express.post("/sign-up", routeAdapter(makeSignUpController()));
-express.post("/sign-in", routeAdapter(makeSignInController()));
+app.post('/sign-up', routeAdapter(makeSignUpController()));
+app.post('/sign-in', routeAdapter(makeSignInController()));
 
-express.get(
-  "/leads",
+app.get(
+  '/leads',
   middlewareAdapter(makeAuthenticationMiddleware()),
   routeAdapter(makeListLeadsController())
 );
 
-express.listen(3001, () => {
-  console.log("> Server started at http://localhost:3001");
+app.listen(3001, () => {
+  console.log('> Server started at http://localhost:3001');
 });

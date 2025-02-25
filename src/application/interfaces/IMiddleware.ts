@@ -13,5 +13,5 @@ export interface IData {
 }
 
 export interface IMiddleware {
-  handle(request: IRequest): Promise<IResponse | IData>;
+  handle(request: IRequest): Promise<IData | IResponse>;
 }
