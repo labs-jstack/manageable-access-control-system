@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface IRequest {
-  body: Record<string, any>;
-  params: Record<string, string>;
-  accountId: string | undefined;
+  headers: Record<string, string>;
 }
 
 export interface IResponse {
@@ -10,7 +8,10 @@ export interface IResponse {
   body: Record<string, any> | null;
 }
 
-export interface IController {
-  handle(request: IRequest): Promise<IResponse>;
+export interface IData {
+  data: Record<string, any>;
 }
 
+export interface IMiddleware {
+  handle(request: IRequest): Promise<IResponse | IData>;
+}
