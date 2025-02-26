@@ -1,5 +1,6 @@
 import express from 'express';
 import { makeAuthenticationMiddleware } from '../factories/makeAuthenticationMIddleware';
+import { makeAuthorizationMiddleware } from '../factories/makeAuthorizationMiddleware';
 import { makeListLeadsController } from '../factories/makeListLeadsController';
 import { makeSignInController } from '../factories/makeSignInController';
 import { makeSignUpController } from '../factories/makeSignUpController';
@@ -17,6 +18,15 @@ app.get(
   '/leads',
   middlewareAdapter(makeAuthenticationMiddleware()),
   routeAdapter(makeListLeadsController())
+);
+
+app.post(
+  '/leads',
+  middlewareAdapter(makeAuthenticationMiddleware()),
+  middlewareAdapter(makeAuthorizationMiddleware(['ADMIN'])),
+  (request, response) => {
+    response.json({ created: true });
+  }
 );
 
 app.listen(3001, () => {
