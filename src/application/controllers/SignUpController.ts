@@ -7,15 +7,16 @@ import { SignUpUseCase } from '../useCases/SignUpUseCase';
 const schema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
-  password: z.string().min(8)
+  password: z.string().min(8),
+  roleId: z.string().uuid()
 });
 
 export class SigUpController implements IController {
   constructor(private readonly signUpUseCase: SignUpUseCase) {}
   async handle(request: IRequest): Promise<IResponse> {
     try {
-      const { email, name, password } = schema.parse(request.body);
-      await this.signUpUseCase.execute({email, name, password});
+      const { email, name, password, roleId } = schema.parse(request.body);
+      await this.signUpUseCase.execute({email, name, password, roleId});
       return {
         body: null,
         statusCode: 204
